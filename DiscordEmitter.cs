@@ -183,7 +183,7 @@ tableConte.Item1 +
             "<th>Deaths</th>" +
             "<th>Clutchs</th>" +
 "</tr>" +
-tableConte.Item2+
+tableConte.Item2 +
 "</table>" +
 "</div>";
             html += "</div></div>";
@@ -514,6 +514,41 @@ tableConte.Item2 +
             // Envia o screenshot da tabela para o Discord usando o webhook
             // Fecha o Chromium Headless
             await browser.CloseAsync();
+        }
+
+        public async Task AssociateUser(SocketMessage message, string steamName)
+        {
+            if (long.TryParse(steamName, out var steamId))
+            {
+                await _context.Set<DiscordUser>().AddAsync(new DiscordUser { DiscordId = message.Author.Id.ToString(), Name = message.Author.Username, SteamID = steamId.ToString() });
+                await message.Channel.SendMessageAsync($"Usuário {steamName} associado pelo steamId {steamId} com sucesso seu cara de buceta do caralho");
+                await _context.SaveChangesAsync();
+                return;
+            }
+            var user = _context.Set<PlayerStats>().FirstOrDefault(x => x.Name == steamName);
+            if(user == null)
+            {
+                await message.Channel.SendMessageAsync($"Usuário {steamName} não encontrado, jogue ao menos uma partida e insira o nome com que você jogou durante a partida, cú enxuto do caralho!");
+                return;
+            }
+
+            await _context.Set<DiscordUser>().AddAsync(new DiscordUser { DiscordId = message.Author.Id.ToString(), Name = message.Author.Username, SteamID = user.SteamId64.ToString() });
+            await _context.SaveChangesAsync();
+            await message.Channel.SendMessageAsync($"Usuário {message.Author.Username} associado ao player {user.Name} - {user.SteamId64}!");
+        }
+
+        public async Task DessociateUser(SocketMessage message)
+        {
+            var user = _context.Set<DiscordUser>().FirstOrDefault(x => x.DiscordId == message.Author.Id.ToString());
+            if (user == null)
+            {
+                await message.Channel.SendMessageAsync($"Usuário {message.Author.Username} não está associado a nenhum player");
+                return;
+            }
+             _context.Set<DiscordUser>().Remove(user);
+
+            await _context.SaveChangesAsync();
+            await message.Channel.SendMessageAsync($"Usuário {message.Author.Username} desassociado com sucesso.");
         }
     }
 }

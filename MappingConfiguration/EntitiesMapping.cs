@@ -6,6 +6,17 @@ namespace CsGOStateEmitter.MappingConfiguration
 {
     public class EntitiesMapping
     {
+
+        internal static Action<EntityTypeBuilder<DiscordUser>> ConfigureDiscordUser()
+        {
+            return entity =>
+            {
+                entity.HasKey(x => x.DiscordId);
+                entity.Property(x => x.SteamID);
+                entity.Property(x => x.Name);
+            };
+        }
+
         internal static Action<EntityTypeBuilder<Result>> ConfigureMatch()
         {
             return entity =>
