@@ -24,7 +24,7 @@ namespace CsGOStateEmitter
 
             _client.Log += Log;
 
-            string token = "MTA4Njk4MTY4NzQyNDA1NzQwNQ.GQuUj3.0uE9kOAP2CDmRnbDEklpmLrP8KoEAz_LIGpxmc";
+            string token = "MTA4Njk4MTY4NzQyNDA1NzQwNQ.GwULGy.6oDYDMksLUfQWrJp-vfZTohOQkg8g1OmKOj40s";
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
 
@@ -95,13 +95,29 @@ namespace CsGOStateEmitter
                         else
                         {
                             long.TryParse(content[1], out var steamId);
-                            result = await context.Set<PlayerStats>().Where(x => x.Name == content[1] || x.SteamId64 == steamId).GroupBy(x => x.SteamId64).ToListAsync();
+                            if(steamId == 0)
+                            {
+                                var playerByName = await context.Set<PlayerStats>().FirstOrDefaultAsync(x => x.Name == content[1]);
+                                if(playerByName != null)
+                                {
+                                    result = await context.Set<PlayerStats>().Where(x =>x.SteamId64 == playerByName.SteamId64).GroupBy(x => x.SteamId64).ToListAsync();
+                                }
+                                else
+                                {
+                                    await message.Channel.SendMessageAsync($"Usuário {content[1]} não encontrado!");
+                                    return;
+                                }
+                            }
+                            else
+                            {
+                                result = await context.Set<PlayerStats>().Where(x => x.Name == content[1] || x.SteamId64 == steamId).GroupBy(x => x.SteamId64).ToListAsync();
+                            }
                         }
              
                         if (result.Any())
                         {
                             var embed = new EmbedBuilder();
-                            embed.WithTitle($"Player: {result.First().FirstOrDefault().Name}");
+                            embed.WithTitle($"Total geral player: {result.First().OrderByDescending(x => x.MatchId).FirstOrDefault().Name}");
                             embed.Fields.Add(new EmbedFieldBuilder
                             {
                                 IsInline = true,
@@ -143,18 +159,29 @@ namespace CsGOStateEmitter
                         }
                         else
                         {
-                            await message.Channel.SendMessageAsync("Nenhum player encontrado com esse nome/steamID, desgraça do caralho");
+                            await message.Channel.SendMessageAsync("Nenhum player encontrado com esse nome/steamID, você deve jogar ao menos uma partida para ter stats, desgraça do caralho");
 
                         }
                         break;
                     case "ultima_partida":
-                        await discordEmitter.SendMessage2(message);
+                        if ((content.Length > 1))
+                        {
+                            if(int.TryParse(content[1], out var  order))
+                            {
+                                await discordEmitter.SendMessage2(message, order);
+                                return;
+
+                            }
+                            await message.Channel.SendMessageAsync("Ratomanocu");
+                            return;
+                        }
+                            await discordEmitter.SendMessage2(message);
                         break;
                     case "rank_clutchs":
-                        var rankClutchs = await context.Set<PlayerStats>().GroupBy(x => x.SteamId64)
-                            .Select(x => new KeyValuePair<string, long>(x.First().Name, x.Sum(c => c.V1) + x.Sum(c => c.V2) + x.Sum(c => c.V3) + x.Sum(c => c.V4) + x.Sum(c => c.V5))).ToListAsync();
+                        var rankClutchs = await context.Set<PlayerStats>().OrderByDescending(x => x.MatchId).GroupBy(x => x.SteamId64)
+                            .Select(x => new KeyValuePair<string, long>(x.OrderByDescending(x => x.MatchId).First().Name, x.Sum(c => c.V1) + x.Sum(c => c.V2) + x.Sum(c => c.V3) + x.Sum(c => c.V4) + x.Sum(c => c.V5))).ToListAsync();
                             var embedClutchs = new EmbedBuilder();
-                        embedClutchs.WithTitle($"Rank de clutchs:");
+                        embedClutchs.WithTitle($"Rank geral de clutchs:");
                         var auxClutch = 1;
 
                         foreach (var player in rankClutchs.OrderByDescending(x => x.Value))
@@ -172,9 +199,9 @@ namespace CsGOStateEmitter
                         break;
                     case "rank_kills":
                         var players = await context.Set<PlayerStats>().GroupBy(x => x.SteamId64)
-                            .Select(x => new KeyValuePair<string, long>(x.First().Name, x.Sum(x => x.Kills))).ToListAsync();
+                            .Select(x => new KeyValuePair<string, long>(x.OrderByDescending(x => x.MatchId).First().Name, x.Sum(x => x.Kills))).ToListAsync();
                         var embedKills = new EmbedBuilder();
-                        embedKills.WithTitle($"Rank de Kills:");
+                        embedKills.WithTitle($"Rank geral de Kills:");
 
                         var aux = 1;
                         foreach (var player in players.OrderByDescending(x => x.Value))
@@ -192,10 +219,10 @@ namespace CsGOStateEmitter
 
                         break;
                     case "rank_first_kills_ct":
-                        var firstKillsCT = await context.Set<PlayerStats>().GroupBy(x => x.SteamId64)
-                            .Select(x => new KeyValuePair<string, long>(x.First().Name, x.Sum(x => x.FirstkillCt))).ToListAsync();
+                        var firstKillsCT = await context.Set<PlayerStats>().OrderByDescending(x => x.MatchId).GroupBy(x => x.SteamId64)
+                            .Select(x => new KeyValuePair<string, long>(x.OrderByDescending(x => x.MatchId).First().Name, x.Sum(x => x.FirstkillCt))).ToListAsync();
                         var embedfirstKillsCT = new EmbedBuilder();
-                        embedfirstKillsCT.WithTitle($"Rank de First-Kills CT:");
+                        embedfirstKillsCT.WithTitle($"Rank geral de First-Kills CT:");
                         var auxftkCT = 1;
 
                         foreach (var player in firstKillsCT.OrderByDescending(x => x.Value))
@@ -212,10 +239,10 @@ namespace CsGOStateEmitter
 
                         break;
                     case "rank_first_kills_tr":
-                        var firstKillsTR = await context.Set<PlayerStats>().GroupBy(x => x.SteamId64)
-                            .Select(x => new KeyValuePair<string, long>(x.First().Name, x.Sum(x => x.FirstkillT))).ToListAsync();
+                        var firstKillsTR = await context.Set<PlayerStats>().OrderByDescending(x => x.MatchId).GroupBy(x => x.SteamId64)
+                            .Select(x => new KeyValuePair<string, long>(x.OrderByDescending(x => x.MatchId).First().Name, x.Sum(x => x.FirstkillT))).ToListAsync();
                         var embedfirstKillsTR = new EmbedBuilder();
-                        embedfirstKillsTR.WithTitle($"Rank de First-Kills TR:");
+                        embedfirstKillsTR.WithTitle($"Rank geral de First-Kills TR:");
                         var auxftk = 1;
 
                         foreach (var player in firstKillsTR.OrderByDescending(x => x.Value))
@@ -235,7 +262,7 @@ namespace CsGOStateEmitter
                         var steamName = content[1];
                         await discordEmitter.AssociateUser(message, steamName);
                         break;
-                    case "deslinkar":
+                    case "/deslinkar":
                         await discordEmitter.DessociateUser(message);
                         break;
                     default:

@@ -40,9 +40,11 @@ namespace CsGOStateEmitter
             return (stateManagement.LastMatch, null);
         }
 
-        public async Task<(Result, List<PlayerStats>)> GetLastMatchAndPlayerStats2()
+        public async Task<(Result, List<PlayerStats>)> GetLastMatchAndPlayerStats2(int order)
         {
-            stateManagement.LastMatch = await _context.Result.OrderBy(x => x.MatchId).LastOrDefaultAsync();
+
+                var lastMatchs = await _context.Result.OrderByDescending(x => x.MatchId).Take(10).ToListAsync();
+            stateManagement.LastMatch = lastMatchs.ElementAt(order - 1);
 
             if (stateManagement.LastMatch != null)
             {
@@ -99,9 +101,9 @@ namespace CsGOStateEmitter
             return (table1, table2, result.Item1);
         }
 
-        private async Task<(string, string, Result)> BuildHtml2()
+        private async Task<(string, string, Result)> BuildHtml2(int order)
         {
-            var result = await this.GetLastMatchAndPlayerStats2();
+            var result = await this.GetLastMatchAndPlayerStats2(order);
             if (result.Item2 == null)
             {
                 return ("", "", null);
@@ -117,7 +119,7 @@ namespace CsGOStateEmitter
                 table1 += $"<td>{player.Kills}</td>";
                 table1 += $"<td>{player.Assists}</td>";
                 table1 += $"<td>{player.Deaths}</td>";
-                table1 += $"<td>{player.Kast}</td>";
+                table1 += $"<td>{player.V1 + player.V2 + player.V3 + player.V5 + player.V5}</td>";
                 table1 += $"</tr>";
 
             }
@@ -131,7 +133,7 @@ namespace CsGOStateEmitter
                 table2 += $"<td>{player.Kills}</td>";
                 table2 += $"<td>{player.Assists}</td>";
                 table2 += $"<td>{player.Deaths}</td>";
-                table2 += $"<td>{player.Kast}</td>";
+                table2 += $"<td>{player.V1 + player.V2 + player.V3 + player.V5 + player.V5}</td>";
                 table2 += $"</tr>";
 
             }
@@ -321,9 +323,9 @@ tableConte.Item2 +
             await browser.CloseAsync();
         }
 
-        public async Task SendMessage2(SocketMessage message)
+        public async Task SendMessage2(SocketMessage message, int order = 1)
         {
-            var tableConte = await this.BuildHtml2();
+            var tableConte = await this.BuildHtml2(order);
             if (string.IsNullOrEmpty(tableConte.Item1))
             {
                 return;
@@ -515,8 +517,21 @@ tableConte.Item2 +
 
         public async Task AssociateUser(SocketMessage message, string steamName)
         {
+            var assoctionaExists = await _context.Set<DiscordUser>().FirstOrDefaultAsync(x => x.DiscordId == message.Author.Id.ToString());
+            if (assoctionaExists != null)
+            {
+                await message.Channel.SendMessageAsync($"Usuário já está associado a um player");
+                return;
+            }
+
             if (long.TryParse(steamName, out var steamId))
             {
+                var playerAlreadyAssociated = await _context.Set<DiscordUser>().FirstOrDefaultAsync(x => x.SteamID == steamId.ToString());
+                if (playerAlreadyAssociated != null)
+                {
+                    await message.Channel.SendMessageAsync($"Você não pode se linkar a esse player porque ele já está com o cú todo arregassado!");
+                    return;
+                }
                 await _context.Set<DiscordUser>().AddAsync(new DiscordUser { DiscordId = message.Author.Id.ToString(), Name = message.Author.Username, SteamID = steamId.ToString() });
                 await message.Channel.SendMessageAsync($"Usuário {steamName} associado pelo steamId {steamId} com sucesso seu cara de buceta do caralho");
                 await _context.SaveChangesAsync();
@@ -526,6 +541,13 @@ tableConte.Item2 +
             if (user == null)
             {
                 await message.Channel.SendMessageAsync($"Usuário {steamName} não encontrado, jogue ao menos uma partida e insira o nome com que você jogou durante a partida, cú enxuto do caralho!");
+                return;
+            }
+
+            var playerAlreadyAssociatedByName = await _context.Set<DiscordUser>().FirstOrDefaultAsync(x => x.SteamID == user.SteamId64.ToString());
+            if (playerAlreadyAssociatedByName != null)
+            {
+                await message.Channel.SendMessageAsync($"Você não pode se linkar a esse player porque ele já está com o cú todo arregassado!");
                 return;
             }
 
