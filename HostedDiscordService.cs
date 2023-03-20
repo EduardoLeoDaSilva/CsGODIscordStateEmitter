@@ -79,6 +79,60 @@ namespace CsGOStateEmitter
 
                 switch (command)
                 {
+                    case "helper" :
+                        var embedHelper = new EmbedBuilder();
+                        embedHelper.WithTitle($"Todos os comandos possíveis:");
+                        embedHelper.Fields.Add(new EmbedFieldBuilder
+                        {
+                            IsInline = false,
+                            Name = "stats",
+                            Value = "Obtém um status geral de kills, Deaths, clutchs, Assists FirstKills CT, FirstKills TR."
+                        });
+                        embedHelper.Fields.Add(new EmbedFieldBuilder
+                        {
+                            IsInline = false,
+                            Name = "link_user NOMEUSUARIOSTEAM",
+                            Value = "Você pode associar o seu usuário steam para executar o comando só como 'stats'"
+                        });
+                        embedHelper.Fields.Add(new EmbedFieldBuilder
+                        {
+                            IsInline = false,
+                            Name = "unlink_user NOMEUSUARIOSTEAM",
+                            Value = "Você pode desassociar o seu usuário steam"
+                        });
+                        embedHelper.Fields.Add(new EmbedFieldBuilder
+                        {
+                            IsInline = false,
+                            Name = "last_match",
+                            Value = "Obter o resultado final da última partida. Pode ser especificado a ordem exemplo : 'last_match 1 ou last_match 2'"
+                        });
+                        embedHelper.Fields.Add(new EmbedFieldBuilder
+                        {
+                            IsInline = false,
+                            Name = "rank_clutchs",
+                            Value = "Exibe um resultado geral de todos os clutchs."
+                        });
+                        embedHelper.Fields.Add(new EmbedFieldBuilder
+                        {
+                            IsInline = false,
+                            Name = "rank_kills",
+                            Value = "Exibe um resultado geral de todas as kills por jogadores"
+                        });
+                        embedHelper.Fields.Add(new EmbedFieldBuilder
+                        {
+                            IsInline = false,
+                            Name = "rank_first_kills_ct",
+                            Value = "Exibe o resultado geral de todas as primeiras kills dos jogares no modo CT"
+                        });
+                        embedHelper.Fields.Add(new EmbedFieldBuilder
+                        {
+                            IsInline = false,
+                            Name = "rank_first_kills_tr",
+                            Value = "Exibe o resultado geral de todas as primeiras kills dos jogares no modo TR"
+                        });
+                        await message.Channel.SendMessageAsync("", embed: embedHelper.Build());
+                        break;
+
                     case "stats":
 
                         if (!(content.Length > 1))
@@ -163,7 +217,7 @@ namespace CsGOStateEmitter
 
                         }
                         break;
-                    case "ultima_partida":
+                    case "last_match":
                         if ((content.Length > 1))
                         {
                             if(int.TryParse(content[1], out var  order))
@@ -258,11 +312,11 @@ namespace CsGOStateEmitter
                         await message.Channel.SendMessageAsync("", embed: embedfirstKillsTR.Build());
 
                         break;
-                    case "linkar":
+                    case "link_user":
                         var steamName = content[1];
                         await discordEmitter.AssociateUser(message, steamName);
                         break;
-                    case "/deslinkar":
+                    case "unlink_user":
                         await discordEmitter.DessociateUser(message);
                         break;
                     default:

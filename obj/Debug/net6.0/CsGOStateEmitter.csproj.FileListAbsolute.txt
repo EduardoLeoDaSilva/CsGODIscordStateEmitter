@@ -68,3 +68,168 @@ C:\Users\Eduardo\source\repos\ConsoleApp6\CsGOStateEmitter\bin\Debug\net6.0\Disc
 C:\Users\Eduardo\source\repos\ConsoleApp6\CsGOStateEmitter\bin\Debug\net6.0\Discord.Net.WebSocket.dll
 C:\Users\Eduardo\source\repos\ConsoleApp6\CsGOStateEmitter\bin\Debug\net6.0\System.Interactive.Async.dll
 C:\Users\Eduardo\source\repos\ConsoleApp6\CsGOStateEmitter\bin\Debug\net6.0\System.Linq.Async.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\appsettings.Development.json
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\appsettings.json
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\CsGOStateEmitter.exe
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\CsGOStateEmitter.deps.json
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\CsGOStateEmitter.runtimeconfig.json
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\CsGOStateEmitter.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\CsGOStateEmitter.pdb
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Discord.Net.Commands.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Discord.Net.Core.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Discord.Net.Interactions.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Discord.Net.Rest.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Discord.Net.Webhook.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Discord.Net.WebSocket.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Hangfire.AspNetCore.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Hangfire.Core.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Hangfire.InMemory.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Hangfire.NetCore.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Hangfire.SqlServer.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Humanizer.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.Extensions.Caching.Abstractions.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.Extensions.Caching.Memory.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.Extensions.Logging.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.Extensions.Options.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.OpenApi.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Mono.TextTemplating.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\MySqlConnector.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Newtonsoft.Json.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Pomelo.EntityFrameworkCore.MySql.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\PuppeteerSharp.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\RestSharp.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\ICSharpCode.SharpZipLib.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\System.CodeDom.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\System.Interactive.Async.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\System.Linq.Async.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\System.Reactive.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\System.Text.Encodings.Web.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\System.Text.Json.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\ca\Hangfire.Core.resources.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\de\Hangfire.Core.resources.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\es\Hangfire.Core.resources.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\fa\Hangfire.Core.resources.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\fr\Hangfire.Core.resources.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\nb\Hangfire.Core.resources.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\nl\Hangfire.Core.resources.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\pt-BR\Hangfire.Core.resources.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\pt-PT\Hangfire.Core.resources.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\pt\Hangfire.Core.resources.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\sv\Hangfire.Core.resources.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\tr-TR\Hangfire.Core.resources.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\zh-TW\Hangfire.Core.resources.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\zh\Hangfire.Core.resources.dll
+D:\Projects\CsGOStateEmitter\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
+D:\Projects\CsGOStateEmitter\obj\Debug\net6.0\CsGOStateEmitter.csproj.AssemblyReference.cache
+D:\Projects\CsGOStateEmitter\obj\Debug\net6.0\CsGOStateEmitter.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\CsGOStateEmitter\obj\Debug\net6.0\CsGOStateEmitter.AssemblyInfoInputs.cache
+D:\Projects\CsGOStateEmitter\obj\Debug\net6.0\CsGOStateEmitter.AssemblyInfo.cs
+D:\Projects\CsGOStateEmitter\obj\Debug\net6.0\CsGOStateEmitter.csproj.CoreCompileInputs.cache
+D:\Projects\CsGOStateEmitter\obj\Debug\net6.0\CsGOStateEmitter.MvcApplicationPartsAssemblyInfo.cs
+D:\Projects\CsGOStateEmitter\obj\Debug\net6.0\CsGOStateEmitter.MvcApplicationPartsAssemblyInfo.cache
+D:\Projects\CsGOStateEmitter\obj\Debug\net6.0\staticwebassets.build.json
+D:\Projects\CsGOStateEmitter\obj\Debug\net6.0\staticwebassets.development.json
+D:\Projects\CsGOStateEmitter\obj\Debug\net6.0\scopedcss\bundle\CsGOStateEmitter.styles.css
+D:\Projects\CsGOStateEmitter\obj\Debug\net6.0\CsGOStateEmitter.csproj.CopyComplete
+D:\Projects\CsGOStateEmitter\obj\Debug\net6.0\CsGOStateEmitter.dll
+D:\Projects\CsGOStateEmitter\obj\Debug\net6.0\refint\CsGOStateEmitter.dll
+D:\Projects\CsGOStateEmitter\obj\Debug\net6.0\CsGOStateEmitter.pdb
+D:\Projects\CsGOStateEmitter\obj\Debug\net6.0\CsGOStateEmitter.genruntimeconfig.cache
+D:\Projects\CsGOStateEmitter\obj\Debug\net6.0\ref\CsGOStateEmitter.dll
+D:\Projects\New folder\CsGOStateEmitter\obj\Debug\net6.0\CsGOStateEmitter.csproj.AssemblyReference.cache
+D:\Projects\New folder\CsGOStateEmitter\obj\Debug\net6.0\CsGOStateEmitter.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\New folder\CsGOStateEmitter\obj\Debug\net6.0\CsGOStateEmitter.AssemblyInfoInputs.cache
+D:\Projects\New folder\CsGOStateEmitter\obj\Debug\net6.0\CsGOStateEmitter.AssemblyInfo.cs
+D:\Projects\New folder\CsGOStateEmitter\obj\Debug\net6.0\CsGOStateEmitter.csproj.CoreCompileInputs.cache
+D:\Projects\New folder\CsGOStateEmitter\obj\Debug\net6.0\CsGOStateEmitter.MvcApplicationPartsAssemblyInfo.cs
+D:\Projects\New folder\CsGOStateEmitter\obj\Debug\net6.0\CsGOStateEmitter.MvcApplicationPartsAssemblyInfo.cache
+D:\Projects\New folder\CsGOStateEmitter\obj\Debug\net6.0\CsGOStateEmitter.dll
+D:\Projects\New folder\CsGOStateEmitter\obj\Debug\net6.0\ref\CsGOStateEmitter.dll
+D:\Projects\New folder\CsGOStateEmitter\obj\Debug\net6.0\CsGOStateEmitter.pdb
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\appsettings.Development.json
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\appsettings.json
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\CsGOStateEmitter.exe
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\CsGOStateEmitter.deps.json
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\CsGOStateEmitter.runtimeconfig.json
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\CsGOStateEmitter.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\CsGOStateEmitter.pdb
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Discord.Net.Commands.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Discord.Net.Core.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Discord.Net.Interactions.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Discord.Net.Rest.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Discord.Net.Webhook.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Discord.Net.WebSocket.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Hangfire.AspNetCore.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Hangfire.Core.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Hangfire.InMemory.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Hangfire.NetCore.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Hangfire.SqlServer.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Humanizer.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.Extensions.Caching.Abstractions.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.Extensions.Caching.Memory.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.Extensions.Logging.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.Extensions.Options.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Microsoft.OpenApi.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Mono.TextTemplating.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\MySqlConnector.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Newtonsoft.Json.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Pomelo.EntityFrameworkCore.MySql.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\PuppeteerSharp.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\RestSharp.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\ICSharpCode.SharpZipLib.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\System.CodeDom.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\System.Interactive.Async.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\System.Linq.Async.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\System.Reactive.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\System.Text.Encodings.Web.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\System.Text.Json.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\ca\Hangfire.Core.resources.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\de\Hangfire.Core.resources.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\es\Hangfire.Core.resources.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\fa\Hangfire.Core.resources.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\fr\Hangfire.Core.resources.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\nb\Hangfire.Core.resources.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\nl\Hangfire.Core.resources.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\pt-BR\Hangfire.Core.resources.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\pt-PT\Hangfire.Core.resources.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\pt\Hangfire.Core.resources.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\sv\Hangfire.Core.resources.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\tr-TR\Hangfire.Core.resources.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\zh-TW\Hangfire.Core.resources.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\zh\Hangfire.Core.resources.dll
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
+D:\Projects\New folder\CsGOStateEmitter\obj\Debug\net6.0\staticwebassets.build.json
+D:\Projects\New folder\CsGOStateEmitter\obj\Debug\net6.0\staticwebassets.development.json
+D:\Projects\New folder\CsGOStateEmitter\obj\Debug\net6.0\scopedcss\bundle\CsGOStateEmitter.styles.css
+D:\Projects\New folder\CsGOStateEmitter\obj\Debug\net6.0\CsGOStateEmitter.csproj.CopyComplete
+D:\Projects\New folder\CsGOStateEmitter\obj\Debug\net6.0\refint\CsGOStateEmitter.dll
+D:\Projects\New folder\CsGOStateEmitter\obj\Debug\net6.0\CsGOStateEmitter.genruntimeconfig.cache
+D:\Projects\New folder\CsGOStateEmitter\bin\Debug\net6.0\HtmlMessage\Scoreboard.html
