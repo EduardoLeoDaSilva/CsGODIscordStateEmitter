@@ -60,7 +60,13 @@ namespace CsGOStateEmitter.Helper
 
             //string applicationPath = Path.Combine(Directory.GetCurrentDirectory(), @$"{rootPath}");
 
-            return FileHelper.ReadFile(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), path), nameFile);
+            var pathCurrentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+#if DEBUG
+            pathCurrentDirectory = Directory.GetCurrentDirectory();
+#endif
+
+            return FileHelper.ReadFile(Path.Combine(pathCurrentDirectory, path), nameFile);
         }
     }
 }

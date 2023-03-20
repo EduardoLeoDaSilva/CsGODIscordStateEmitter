@@ -234,10 +234,10 @@ namespace CsGOStateEmitter
             var valuesContent = new ScoreBoardModel()
             {
                 ScoreBoard = $"{tableConte.Item3?.Team1Score ?? 0 } x {tableConte.Item3?.Team2Score ?? 0}",
-                Map = "Colocar mapa aqui",
-                Time1 = "Colocar time 1",
+                Map = tableConte.Item3?.MapName,
+                Time1 = "Time 1",
                 TableRowsTime1 = tableConte.Item1,
-                Time2 = "Colocar time 2",
+                Time2 = "Time 2",
                 TableRowsTime2 = tableConte.Item2
             };
 
