@@ -42,10 +42,7 @@ namespace CsGOStateEmitter
 
         public async Task<(Result, List<PlayerStats>)> GetLastMatchAndPlayerStats2()
         {
-            if (stateManagement.LastMatch == null)
-            {
-                stateManagement.LastMatch = await _context.Result.OrderBy(x => x.MatchId).LastOrDefaultAsync();
-            }
+            stateManagement.LastMatch = await _context.Result.OrderBy(x => x.MatchId).LastOrDefaultAsync();
 
             if (stateManagement.LastMatch != null)
             {
@@ -526,7 +523,7 @@ tableConte.Item2 +
                 return;
             }
             var user = _context.Set<PlayerStats>().FirstOrDefault(x => x.Name == steamName);
-            if(user == null)
+            if (user == null)
             {
                 await message.Channel.SendMessageAsync($"Usuário {steamName} não encontrado, jogue ao menos uma partida e insira o nome com que você jogou durante a partida, cú enxuto do caralho!");
                 return;
@@ -545,7 +542,7 @@ tableConte.Item2 +
                 await message.Channel.SendMessageAsync($"Usuário {message.Author.Username} não está associado a nenhum player");
                 return;
             }
-             _context.Set<DiscordUser>().Remove(user);
+            _context.Set<DiscordUser>().Remove(user);
 
             await _context.SaveChangesAsync();
             await message.Channel.SendMessageAsync($"Usuário {message.Author.Username} desassociado com sucesso.");

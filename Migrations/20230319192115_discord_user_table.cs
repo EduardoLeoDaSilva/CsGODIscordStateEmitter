@@ -19,7 +19,7 @@ namespace CsGOStateEmitter.Migrations
                 name: "DiscordUser",
                 columns: table => new
                 {
-                    DiscordId = table.Column<string>(type: "varchar(255)", nullable: false)
+                    DiscordId = table.Column<string>(type: "varchar(100)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),

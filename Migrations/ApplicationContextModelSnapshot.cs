@@ -22,7 +22,7 @@ namespace CsGOStateEmitter.Migrations
             modelBuilder.Entity("CsGOStateEmitter.Entities.DiscordUser", b =>
                 {
                     b.Property<string>("DiscordId")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("Name")
                         .IsRequired()
