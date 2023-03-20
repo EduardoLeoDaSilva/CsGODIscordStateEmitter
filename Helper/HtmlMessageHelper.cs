@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace CsGOStateEmitter.Helper
 {
@@ -59,7 +60,7 @@ namespace CsGOStateEmitter.Helper
 
             //string applicationPath = Path.Combine(Directory.GetCurrentDirectory(), @$"{rootPath}");
 
-            return FileHelper.ReadFile(Path.Combine(Directory.GetCurrentDirectory(), path), nameFile);
+            return FileHelper.ReadFile(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), path), nameFile);
         }
     }
 }
