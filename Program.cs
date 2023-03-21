@@ -21,6 +21,7 @@ builder.Services.AddHangfire(configuration => configuration
 // Add the processing server as IHostedService
 builder.Services.AddHangfireServer();
 builder.Services.AddHostedService<HostedDiscordService>();
+builder.Services.AddScoped<HostzoneService>();
 
 var connectionString = builder.Configuration.GetConnectionString("db");
 

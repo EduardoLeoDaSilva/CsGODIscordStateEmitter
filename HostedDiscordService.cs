@@ -73,6 +73,7 @@ namespace CsGOStateEmitter
             {
                 var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
                 var discordEmitter = scope.ServiceProvider.GetRequiredService<DiscordEmitter>();
+                var hostzoneService = scope.ServiceProvider.GetRequiredService<HostzoneService>();
                 var content = commandMessage.Split(' ');
                 var command = commandMessage.Split(' ')[0];
                 List<IGrouping<long, PlayerStats>> result = null;
@@ -315,6 +316,51 @@ namespace CsGOStateEmitter
                     case "link_user":
                         var steamName = content[1];
                         await discordEmitter.AssociateUser(message, steamName);
+                        break;
+                    case "rollback":
+                        if(content.Length > 1)
+                        {
+                            var round = content[1];
+                            await hostzoneService.RollbackOrder(message, int.Parse(round));
+                        }
+                        else
+                        {
+                            await hostzoneService.RollbackOrder(message);
+                        }
+
+                        break;
+                    case "execute_rollback":
+                        var cookie = await hostzoneService.Logar();
+                        await hostzoneService.ExecuteRollback(cookie, message);
+                        break;
+                    case "clear_rollback":
+                        await hostzoneService.ClearRollbackRequest(message);
+                        break;
+                    case "changemap":
+                        if (content.Length > 1)
+                        {
+                            var cookieMap = await hostzoneService.Logar();
+                            var map = content[1];
+                            await hostzoneService.ChangeMap(cookieMap, message, map);
+                        }
+                        else
+                        {
+                            await message.Channel.SendMessageAsync("Nenhum mapa informado, informe um porra!");
+                        }
+
+                        break;
+                    case "add_player_to_match":
+                        if (content.Length > 2)
+                        {
+                            var cookieMap = await hostzoneService.Logar();
+                            var steamId = content[1];
+                            var team = content[1];
+                            await hostzoneService.AddPlayerToMatch(cookieMap, message, steamId, team);
+                        }
+                        else
+                        {
+                            await message.Channel.SendMessageAsync("Informe o steamId e o time que o player irá entrar");
+                        }
                         break;
                     case "unlink_user":
                         await discordEmitter.DessociateUser(message);
