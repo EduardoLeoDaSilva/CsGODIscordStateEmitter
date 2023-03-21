@@ -80,7 +80,7 @@ namespace CsGOStateEmitter
 
                 switch (command)
                 {
-                    case "helper" :
+                    case "help" :
                         var embedHelper = new EmbedBuilder();
                         embedHelper.WithTitle($"Todos os comandos possíveis:");
                         embedHelper.Fields.Add(new EmbedFieldBuilder
@@ -130,6 +130,36 @@ namespace CsGOStateEmitter
                             IsInline = false,
                             Name = "rank_first_kills_tr",
                             Value = "Exibe o resultado geral de todas as primeiras kills dos jogares no modo TR"
+                        });
+                        embedHelper.Fields.Add(new EmbedFieldBuilder
+                        {
+                            IsInline = false,
+                            Name = "rollback",
+                            Value = "Solicita rollback para o round atual, é possível especificar o round também através do comando: rollback 14"
+                        });
+                        embedHelper.Fields.Add(new EmbedFieldBuilder
+                        {
+                            IsInline = false,
+                            Name = "execute_rollback",
+                            Value = "Executa o rollback solicitado, somente admins tem permissão para executar este comando"
+                        });
+                        embedHelper.Fields.Add(new EmbedFieldBuilder
+                        {
+                            IsInline = false,
+                            Name = "clear_rollback",
+                            Value = "Remove a ultima solicitação de rollback"
+                        });
+                        embedHelper.Fields.Add(new EmbedFieldBuilder
+                        {
+                            IsInline = false,
+                            Name = "changemap",
+                            Value = "Ex: 'changemap mirage'. Muda o mapa da partida, somente admin tem permissão para executa este comando"
+                        });
+                        embedHelper.Fields.Add(new EmbedFieldBuilder
+                        {
+                            IsInline = false,
+                            Name = "add_player_to_match {steamID} {team}",
+                            Value = "Adiciona jogador a partida caso algum jogado caia no meio da partida. Ex: add_player_to_match 5135139358135 team1"
                         });
                         await message.Channel.SendMessageAsync("", embed: embedHelper.Build());
                         break;
@@ -354,12 +384,38 @@ namespace CsGOStateEmitter
                         {
                             var cookieMap = await hostzoneService.Logar();
                             var steamId = content[1];
-                            var team = content[1];
+                            var team = content[2];
                             await hostzoneService.AddPlayerToMatch(cookieMap, message, steamId, team);
                         }
                         else
                         {
                             await message.Channel.SendMessageAsync("Informe o steamId e o time que o player irá entrar");
+                        }
+                        break;
+                    case "add_admin":
+                        if (content.Length > 1)
+                        {
+                            var discordId = content[1].Replace("@", "").Replace("<", "").Replace(">", "");
+                            if(long.TryParse(discordId, out var discordIdLong))
+                            {
+                                var commandOwner = context.Set<AdminBot>().FirstOrDefault(x => x.Id == message.Author.Id.ToString());
+                                if(commandOwner == null)
+                                {
+                                    await message.Channel.SendMessageAsync("Você não têm permissão para adicionar admins");
+                                    return;
+                                }
+                                await context.Set<AdminBot>().AddAsync(new AdminBot { Id = discordIdLong.ToString()});
+                                await context.SaveChangesAsync();
+                                await message.Channel.SendMessageAsync("Admin adicionado com sucesso");
+                            }
+                            else
+                            {
+                                await message.Channel.SendMessageAsync("Usuário inválido");
+                            }
+                        }
+                        else
+                        {
+                            await message.Channel.SendMessageAsync("Informe o admin com @NomeDiscord Ex: add_admin @Poita");
                         }
                         break;
                     case "unlink_user":

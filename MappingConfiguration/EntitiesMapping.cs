@@ -17,6 +17,14 @@ namespace CsGOStateEmitter.MappingConfiguration
             };
         }
 
+        internal static Action<EntityTypeBuilder<AdminBot>> ConfigureAdminBot()
+        {
+            return entity =>
+            {
+                entity.HasKey(x => x.Id);
+            };
+        }
+
         internal static Action<EntityTypeBuilder<Result>> ConfigureMatch()
         {
             return entity =>

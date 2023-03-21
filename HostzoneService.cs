@@ -1,5 +1,6 @@
 ﻿using CsGOStateEmitter.Entities;
 using Discord.WebSocket;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace CsGOStateEmitter
@@ -124,8 +125,10 @@ namespace CsGOStateEmitter
 
         public async Task ChangeMap(string cookie, SocketMessage socketMessage, string map)
         {
-            var admins = new List<string> { "327636472360599552", "412275598745010176" };
-            if (!admins.Contains(socketMessage.Author.Id.ToString()))
+
+            var commandOwner = await _context.Set<AdminBot>().FirstOrDefaultAsync(x => x.Id == socketMessage.Author.Id.ToString());
+
+            if (commandOwner == null)
             {
                 await socketMessage.Channel.SendMessageAsync("Você não pode solicitar mudança de mapa, porque tu é um poita");
                 return;
@@ -183,8 +186,11 @@ namespace CsGOStateEmitter
 
         public async Task AddPlayerToMatch(string cookie, SocketMessage socketMessage, string auth, string team)
         {
-            var admins = new List<string> { "327636472360599552", "412275598745010176" };
-            if (!admins.Contains(socketMessage.Author.Id.ToString()))
+
+
+            var commandOwner = await _context.Set<AdminBot>().FirstOrDefaultAsync(x => x.Id == socketMessage.Author.Id.ToString());
+
+            if (commandOwner == null)
             {
                 await socketMessage.Channel.SendMessageAsync("Você não pode adicionar um player a partida");
                 return;
@@ -239,10 +245,13 @@ namespace CsGOStateEmitter
 
         public async Task ExecuteRollback(string cookie, SocketMessage socketMessage)
         {
-            var admins = new List<string> { "327636472360599552", "412275598745010176" };
-            if (!admins.Contains(socketMessage.Author.Id.ToString()))
+            var commandOwner = await _context.Set<AdminBot>().FirstOrDefaultAsync(x => x.Id == socketMessage.Author.Id.ToString());
+
+
+
+            if (commandOwner == null)
             {
-                await socketMessage.Channel.SendMessageAsync("Você não pode confirmar a solicitação de rollback");
+                await socketMessage.Channel.SendMessageAsync("Você não pode confirmar a solicitação de rollback, porque você não é admin");
                 return;
             }
 
@@ -250,7 +259,7 @@ namespace CsGOStateEmitter
             if (string.IsNullOrWhiteSpace(_stateManagement.Rollback))
             {
                 await socketMessage.Channel.SendMessageAsync($"Sem rollback requisitado, solicite primeiro o rollback");
-
+                return;
             }
 
             await socketMessage.Channel.SendMessageAsync($"Rollback confirmado, solicitação sendo executada.");

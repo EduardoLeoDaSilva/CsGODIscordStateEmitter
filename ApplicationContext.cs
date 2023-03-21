@@ -20,6 +20,7 @@ namespace CsGOStateEmitter
             modelBuilder.Entity(EntitiesMapping.ConfigureMatch());
             modelBuilder.Entity(EntitiesMapping.ConfigureDiscordUser());
             modelBuilder.Entity(EntitiesMapping.ConfigurePlayer());
+            modelBuilder.Entity(EntitiesMapping.ConfigureAdminBot());
         }
     }
 }
