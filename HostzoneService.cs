@@ -101,7 +101,7 @@ namespace CsGOStateEmitter
         public async Task RollbackOrder(SocketMessage socketMessage, int? roundRequested = null)
         {
 
-            var match = _context.Set<Result>().OrderBy(x => x.MatchId).FirstOrDefault(x => x.EndTime == null);
+            var match = _context.Set<Result>().OrderByDescending(x => x.MatchId).FirstOrDefault(x => x.EndTime == null);
             var admins = await _context.Set<AdminBot>().ToListAsync();
 
             if (match == null) {
