@@ -22,6 +22,7 @@ namespace CsGOStateEmitter.MappingConfiguration
             return entity =>
             {
                 entity.HasKey(x => x.Id);
+                entity.Property(x => x.Name);
             };
         }
 

@@ -102,6 +102,8 @@ namespace CsGOStateEmitter
         {
 
             var match = _context.Set<Result>().OrderBy(x => x.MatchId).FirstOrDefault(x => x.EndTime == null);
+            var admins = await _context.Set<AdminBot>().ToListAsync();
+
             if (match == null) {
                 await socketMessage.Channel.SendMessageAsync($"Sem partida ativa para dar o rollback");
                 return;
@@ -111,7 +113,7 @@ namespace CsGOStateEmitter
 
             _stateManagement.Rollback = rollbackString;
 
-            await socketMessage.Channel.SendMessageAsync($"Rollback para o round {round} solicitado. Aguardando confirmação de um dos admins. DudKiller, HM, Waguin");
+            await socketMessage.Channel.SendMessageAsync($"Rollback para o round {round} da {match.MapName} solicitado. Aguardando confirmação de um dos admins. {string.Join(",", admins.Select(x => x.Name))}");
 
         }
 
@@ -246,7 +248,6 @@ namespace CsGOStateEmitter
         public async Task ExecuteRollback(string cookie, SocketMessage socketMessage)
         {
             var commandOwner = await _context.Set<AdminBot>().FirstOrDefaultAsync(x => x.Id == socketMessage.Author.Id.ToString());
-
 
 
             if (commandOwner == null)

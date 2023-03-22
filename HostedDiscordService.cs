@@ -404,7 +404,15 @@ namespace CsGOStateEmitter
                                     await message.Channel.SendMessageAsync("Você não têm permissão para adicionar admins");
                                     return;
                                 }
-                                await context.Set<AdminBot>().AddAsync(new AdminBot { Id = discordIdLong.ToString()});
+
+                                var alreadyExists = context.Set<AdminBot>().FirstOrDefault(x => x.Id == discordIdLong.ToString());
+                                if(alreadyExists != null)
+                                {
+                                    await message.Channel.SendMessageAsync("Admin já existe em nossa base.");
+                                    return;
+                                }
+
+                                await context.Set<AdminBot>().AddAsync(new AdminBot { Id = discordIdLong.ToString(), Name = message.CleanContent.Split(" ")[1].Replace("@", "").Split("#")[0]});
                                 await context.SaveChangesAsync();
                                 await message.Channel.SendMessageAsync("Admin adicionado com sucesso");
                             }
