@@ -24,7 +24,7 @@ namespace CsGOStateEmitter
 
             _client.Log += Log;
 
-            string token = "MTA4Njk4MTY4NzQyNDA1NzQwNQ.GwULGy.6oDYDMksLUfQWrJp-vfZTohOQkg8g1OmKOj40s";
+            string token = "MTA4Njk4MTY4NzQyNDA1NzQwNQ.GocTM8.cW0CPzBAkroyojJj3ZtsY2zEKQ2-98rxB-0l-A";
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
 
@@ -344,7 +344,7 @@ namespace CsGOStateEmitter
 
                         break;
                     case "link_user":
-                        var steamName = content[1];
+                        var steamName = commandMessage.Replace("link_user", "");
                         await discordEmitter.AssociateUser(message, steamName);
                         break;
                     case "rollback":
