@@ -251,13 +251,22 @@ namespace CsGOStateEmitter
                                 Name = "MVPs",
                                 Value = result.First().Sum(x => x.Mvp)
                             });
+                            var kills = result.First().Sum(x => x.Kills);
+                            var deaths = result.First().Sum(x => x.Deaths);
+                            var kd = deaths <= 0 ? 0.0m : (decimal)kills / (decimal)deaths;
                             embed.Fields.Add(new EmbedFieldBuilder
                             {
                                 IsInline = true,
                                 Name = "K/D",
-                                Value = (result.First().Sum(x => x.Kills) / result.First().Sum(x => x.Deaths)).ToString("0.00")
+                                Value = kd.ToString("0.00")
                             });
-                            
+                            embed.Fields.Add(new EmbedFieldBuilder
+                            {
+                                IsInline = true,
+                                Name = "Total Matches",
+                                Value = result.First().Select(x => x.MatchId)?.Count() ?? 0
+                            });
+
                             await message.Channel.SendMessageAsync("", embed: embed.Build());
                         }
                         else
