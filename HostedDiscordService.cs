@@ -92,13 +92,13 @@ namespace CsGOStateEmitter
                         embedHelper.Fields.Add(new EmbedFieldBuilder
                         {
                             IsInline = false,
-                            Name = "link_user NOMEUSUARIOSTEAM",
+                            Name = "link_user {Nome usuário steam}",
                             Value = "Você pode associar o seu usuário steam para executar o comando só como 'stats'"
                         });
                         embedHelper.Fields.Add(new EmbedFieldBuilder
                         {
                             IsInline = false,
-                            Name = "unlink_user NOMEUSUARIOSTEAM",
+                            Name = "unlink_user {Nome usuário steam}",
                             Value = "Você pode desassociar o seu usuário steam"
                         });
                         embedHelper.Fields.Add(new EmbedFieldBuilder
@@ -239,7 +239,25 @@ namespace CsGOStateEmitter
                                 Name = "FirstKills TR",
                                 Value = result.First().Sum(x => x.FirstDeathT)
                             });
-
+                            embed.Fields.Add(new EmbedFieldBuilder
+                            {
+                                IsInline = true,
+                                Name = "KillsWithKnife",
+                                Value = result.First().Sum(x => x.KnifeKills)
+                            });
+                            embed.Fields.Add(new EmbedFieldBuilder
+                            {
+                                IsInline = true,
+                                Name = "MVPs",
+                                Value = result.First().Sum(x => x.Mvp)
+                            });
+                            embed.Fields.Add(new EmbedFieldBuilder
+                            {
+                                IsInline = true,
+                                Name = "K/D",
+                                Value = (result.First().Sum(x => x.Kills) / result.First().Sum(x => x.Deaths)).ToString("0.00")
+                            });
+                            
                             await message.Channel.SendMessageAsync("", embed: embed.Build());
                         }
                         else
