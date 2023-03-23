@@ -201,19 +201,29 @@ namespace CsGOStateEmitter
              
                         if (result.Any())
                         {
+                            var kills = result.First().Sum(x => x.Kills);
+                            var deaths = result.First().Sum(x => x.Deaths);
+                            var headshotKills = result.First().Sum(x => x.HeadshotKills);
+
                             var embed = new EmbedBuilder();
                             embed.WithTitle($"Total geral player: {result.First().OrderByDescending(x => x.MatchId).FirstOrDefault().Name}");
                             embed.Fields.Add(new EmbedFieldBuilder
                             {
                                 IsInline = true,
                                 Name = "Kills",
-                                Value = result.First().Sum(x => x.Kills)
+                                Value = kills
                             });
                             embed.Fields.Add(new EmbedFieldBuilder
                             {
                                 IsInline = true,
                                 Name = "Deaths",
-                                Value = result.First().Sum(x => x.Deaths)
+                                Value = deaths
+                            });
+                            embed.Fields.Add(new EmbedFieldBuilder
+                            {
+                                IsInline = true,
+                                Name = "Assists",
+                                Value = result.First().Sum(x => x.Assists)
                             });
                             embed.Fields.Add(new EmbedFieldBuilder
                             {
@@ -224,8 +234,15 @@ namespace CsGOStateEmitter
                             embed.Fields.Add(new EmbedFieldBuilder
                             {
                                 IsInline = true,
-                                Name = "Assists",
-                                Value = result.First().Sum(x => x.Assists)
+                                Name = "MVPs",
+                                Value = result.First().Sum(x => x.Mvp)
+                            });
+                            var kd = deaths <= 0 ? 0.0m : (decimal)kills / (decimal)deaths;
+                            embed.Fields.Add(new EmbedFieldBuilder
+                            {
+                                IsInline = true,
+                                Name = "K/D",
+                                Value = kd.ToString("0.00")
                             });
                             embed.Fields.Add(new EmbedFieldBuilder
                             {
@@ -248,23 +265,15 @@ namespace CsGOStateEmitter
                             embed.Fields.Add(new EmbedFieldBuilder
                             {
                                 IsInline = true,
-                                Name = "MVPs",
-                                Value = result.First().Sum(x => x.Mvp)
-                            });
-                            var kills = result.First().Sum(x => x.Kills);
-                            var deaths = result.First().Sum(x => x.Deaths);
-                            var kd = deaths <= 0 ? 0.0m : (decimal)kills / (decimal)deaths;
-                            embed.Fields.Add(new EmbedFieldBuilder
-                            {
-                                IsInline = true,
-                                Name = "K/D",
-                                Value = kd.ToString("0.00")
-                            });
-                            embed.Fields.Add(new EmbedFieldBuilder
-                            {
-                                IsInline = true,
                                 Name = "Total Matches",
                                 Value = result.First().Select(x => x.MatchId)?.Count() ?? 0
+                            });
+                            var hsPercent = kills <= 0 ? 0.00m : ((decimal)headshotKills / (decimal)kills) * 100;
+                            embed.Fields.Add(new EmbedFieldBuilder
+                            {
+                                IsInline = true,
+                                Name = "HeadShots - %",
+                                Value = $"{headshotKills} - {hsPercent.ToString("0.00")}%"
                             });
 
                             await message.Channel.SendMessageAsync("", embed: embed.Build());
@@ -272,7 +281,6 @@ namespace CsGOStateEmitter
                         else
                         {
                             await message.Channel.SendMessageAsync("Nenhum player encontrado com esse nome/steamID, você deve jogar ao menos uma partida para ter stats, desgraça do caralho");
-
                         }
                         break;
                     case "last_match":
@@ -282,7 +290,6 @@ namespace CsGOStateEmitter
                             {
                                 await discordEmitter.SendMessage2(message, order);
                                 return;
-
                             }
                             await message.Channel.SendMessageAsync("Ratomanocu");
                             return;
