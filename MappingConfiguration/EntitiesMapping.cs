@@ -12,6 +12,7 @@ namespace CsGOStateEmitter.MappingConfiguration
             {
                 entity.ToTable("PlayersAntiCheating");
                 entity.HasKey(m => m.SteamId);
+                entity.Property(c => c.SteamId).IsRequired().HasColumnName("SteamId");
                 entity.Property(m => m.Name).IsRequired(true).HasMaxLength(100);
                 entity.Property(m => m.Expiration);
                 entity.Property(m => m.Map);
@@ -27,7 +28,8 @@ namespace CsGOStateEmitter.MappingConfiguration
             {
                 entity.ToTable("GameScreemShots");
                 entity.HasKey(m => m.Id);
-                entity.Property(m => m.SteamId).IsRequired(true);
+                entity.Property(c => c.Id).IsRequired().HasColumnName("Id");
+                entity.Property(m => m.PlayersSteamId).IsRequired(true);
                 entity.Property(m => m.MatchId).IsRequired(true);
                 entity.Property(m => m.ImageBase64);
                 entity.HasOne(m => m.Players);
