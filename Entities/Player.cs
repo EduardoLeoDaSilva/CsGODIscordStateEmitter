@@ -13,6 +13,8 @@
         public bool IsAntiCheatOpen { get; set; }
         public DateTime Expiration { get; set; }
 
+        public List<GameScreemShots> GameScreemShots { get; set; }
+
         public bool CanITakePhoto()
         {
             var seconds = (LastPhotoTaken - DateTime.Now).Seconds;
