@@ -80,6 +80,24 @@ namespace CsGOStateEmitter
 
                 switch (command)
                 {
+                    case "$$get_images_anticheating":
+
+                        // TODO: Montar esquema para pegar o SteamId e consultar o usuário
+                        var playerScreemShots = await context.Set<Player>().Include(i => i.GameScreemShots).FirstOrDefaultAsync(x => x.SteamId == "76561198801678688");
+                        if (playerScreemShots == null)
+                        {
+                            await message.Channel.SendMessageAsync($"Nenhum screemshot encontrado para esse player");
+                            return;
+                        }
+
+                        for (int i = 0; i < playerScreemShots.GameScreemShots.Select(x => x.ImageBase64).Count(); i += 6)
+                        {
+                            // Pega as próximas 6 imagens para enviar
+                            List<string> batch = playerScreemShots.GameScreemShots.Select(x => x.ImageBase64).Skip(i).Take(6).ToList();
+                            await discordEmitter.SendImageFilesInBase64(message, batch, $"Player: {playerScreemShots.Name}");
+                        }
+
+                        return;
                     case "help" :
                         var embedHelper = new EmbedBuilder();
                         embedHelper.WithTitle($"Todos os comandos possíveis:");
