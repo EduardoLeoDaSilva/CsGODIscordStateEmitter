@@ -6,6 +6,19 @@ namespace CsGOStateEmitter.MappingConfiguration
 {
     public class EntitiesMapping
     {
+        internal static Action<EntityTypeBuilder<Player>> ConfigurePlayers()
+        {
+            return entity =>
+            {
+                entity.ToTable("PlayersAntiCheating");
+                entity.HasKey(m => m.SteamId);
+                entity.Property(m => m.Name).IsRequired(true).HasMaxLength(100);
+                entity.Property(m => m.Expiration);
+                entity.Property(m => m.Map);
+                entity.Property(m => m.IsConnected);
+                entity.Property(m => m.IsAntiCheatOpen);
+            };
+        }
 
         internal static Action<EntityTypeBuilder<DiscordUser>> ConfigureDiscordUser()
         {
