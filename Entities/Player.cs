@@ -13,7 +13,7 @@
         public bool IsAntiCheatOpen { get; set; }
         public DateTime Expiration { get; set; }
 
-        public List<GameScreemShots> GameScreemShots { get; set; }
+        public List<PlayerGameInformation> PlayerGameInformation { get; set; }
 
         public bool CanITakePhoto()
         {

@@ -18,20 +18,21 @@ namespace CsGOStateEmitter.MappingConfiguration
                 entity.Property(m => m.Map);
                 entity.Property(m => m.IsConnected);
                 entity.Property(m => m.IsAntiCheatOpen);
-                entity.HasMany(m => m.GameScreemShots);
+                entity.HasMany(m => m.PlayerGameInformation);
             };
         }
 
-        internal static Action<EntityTypeBuilder<GameScreemShots>> ConfigureGameScreemShots()
+        internal static Action<EntityTypeBuilder<PlayerGameInformation>> ConfigurePlayerGameInformation()
         {
             return entity =>
             {
-                entity.ToTable("GameScreemShots");
+                entity.ToTable("PlayerGameInformations");
                 entity.HasKey(m => m.Id);
                 entity.Property(c => c.Id).IsRequired().HasColumnName("Id");
                 entity.Property(m => m.PlayersSteamId).IsRequired(true);
                 entity.Property(m => m.MatchId).IsRequired(true);
-                entity.Property(m => m.ImageBase64);
+                entity.Property(m => m.PathImage);
+                entity.Property(m => m.ProssesNamesBase64);
                 entity.HasOne(m => m.Players);
             };
         }

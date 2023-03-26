@@ -24,7 +24,7 @@ namespace CsGOStateEmitter
 
             // Tabelas utilizadas pelo anticheating
             modelBuilder.Entity(EntitiesMapping.ConfigurePlayers()); 
-            modelBuilder.Entity(EntitiesMapping.ConfigureGameScreemShots());
+            modelBuilder.Entity(EntitiesMapping.ConfigurePlayerGameInformation());
 
             // Tabela DropBox
             modelBuilder.Entity(EntitiesMapping.ConfigureDropBox());
