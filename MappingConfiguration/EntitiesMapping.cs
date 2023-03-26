@@ -43,6 +43,7 @@ namespace CsGOStateEmitter.MappingConfiguration
             {
                 entity.ToTable("DropboxTokens");
                 entity.HasKey(m => m.Id);
+                entity.Property(c => c.Id).IsRequired().HasColumnName("Id");
                 entity.Property(m => m.Token);
                 entity.Property(m => m.Expiration);
             };

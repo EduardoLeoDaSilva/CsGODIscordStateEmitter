@@ -83,20 +83,30 @@ namespace CsGOStateEmitter
                     case "$$get_images_anticheating":
 
                         // TODO: Montar esquema para pegar o SteamId e consultar o usuário
-                        var playerGame = await context.Set<Player>().Include(i => i.PlayerGameInformation).FirstOrDefaultAsync(x => x.SteamId == "76561198801678688");
-                        if (playerGame == null)
-                        {
-                            await message.Channel.SendMessageAsync($"Nenhum screemshot encontrado para esse player");
-                            return;
-                        }
+                        //var playerGame = await context.Set<Player>().Include(i => i.PlayerGameInformation).FirstOrDefaultAsync(x => x.SteamId == "76561198801678688");
+                        //if (playerGame == null)
+                        //{
+                        //    await message.Channel.SendMessageAsync($"Nenhum screemshot encontrado para esse player");
+                        //    return;
+                        //}
 
-                        for (int i = 0; i < playerGame.PlayerGameInformation.Select(x => x.PathImage).Count(); i += 6)
-                        {
-                            // Pega as próximas 6 imagens para enviar
-                            //List<string> batch = playerGame.PlayerGameInformation.Select(x => x.PathImage).Skip(i).Take(6).ToList();
-                            //await discordEmitter.SendImageFilesInBase64(message, batch, $"Player: {playerGame.Name}");
-                        }
+                        //for (int i = 0; i < playerGame.PlayerGameInformation.Select(x => x.PathImage).Count(); i += 6)
+                        //{
+                        //    // Pega as próximas 6 imagens para enviar
+                        //    //List<string> batch = playerGame.PlayerGameInformation.Select(x => x.PathImage).Skip(i).Take(6).ToList();
+                        //    //await discordEmitter.SendImageFilesInBase64(message, batch, $"Player: {playerGame.Name}");
+                        //}
 
+                        var imageAnticheating = new EmbedBuilder();
+
+                        imageAnticheating.WithTitle($"Imagens do Anticheating");
+                        imageAnticheating.Fields.Add(new EmbedFieldBuilder
+                        {
+                            IsInline = false,
+                            Name = "Link",
+                            Value = "https://www.dropbox.com/scl/fo/xv5xxf4zi3mue82j4hc4d/h?dl=0"
+                        });
+                        await message.Channel.SendMessageAsync("", embed: imageAnticheating.Build());
                         return;
                     case "help" :
                         var embedHelper = new EmbedBuilder();
