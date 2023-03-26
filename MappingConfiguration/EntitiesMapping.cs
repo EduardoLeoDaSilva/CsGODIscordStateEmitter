@@ -36,6 +36,17 @@ namespace CsGOStateEmitter.MappingConfiguration
             };
         }
 
+        internal static Action<EntityTypeBuilder<TokenDropbox>> ConfigureDropBox()
+        {
+            return entity =>
+            {
+                entity.ToTable("DropboxTokens");
+                entity.HasKey(m => m.Id);
+                entity.Property(m => m.Token);
+                entity.Property(m => m.Expiration);
+            };
+        }
+        
         internal static Action<EntityTypeBuilder<DiscordUser>> ConfigureDiscordUser()
         {
             return entity =>
