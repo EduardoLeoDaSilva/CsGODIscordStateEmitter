@@ -30,8 +30,16 @@ namespace CsGOStateEmitter
 
 
             _client.MessageReceived += MessageReceived;
+            _client.Disconnected += OnDisconnected;
 
             await Task.Delay(-1);
+        }
+
+        private async Task OnDisconnected(Exception arg)
+        {
+            string token = "MTA4Njk4MTY4NzQyNDA1NzQwNQ.GocTM8.cW0CPzBAkroyojJj3ZtsY2zEKQ2-98rxB-0l-A";
+            await _client.LoginAsync(TokenType.Bot, token);
+            await this._client.StartAsync();
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
