@@ -214,6 +214,26 @@ namespace CsGOStateEmitter
             await browser.CloseAsync();
         }
 
+        public async Task SendImageFilesInBase64(SocketMessage message, List<string> imagesBase64, string messageAditional = null)
+        {
+            try
+            {
+                List<FileAttachment> attachments = new List<FileAttachment>();
+                for (int i = 0; i < imagesBase64.Count; i++)
+                {
+                    attachments.Add(new FileAttachment(new MemoryStream(Convert.FromBase64String(imagesBase64[i])), $"screemshot-anticheating-{i}.png"));
+                }
+                var result = await message.Channel.SendFilesAsync(attachments, messageAditional);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
+                Console.WriteLine(e.InnerException);
+                throw;
+            }
+        }
+
         public async Task SendMessage2(SocketMessage message, int order = 1)
         {
             var tableConte = await this.BuildHtml2(order);

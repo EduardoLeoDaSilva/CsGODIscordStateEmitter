@@ -6,7 +6,49 @@ namespace CsGOStateEmitter.MappingConfiguration
 {
     public class EntitiesMapping
     {
+        internal static Action<EntityTypeBuilder<Player>> ConfigurePlayers()
+        {
+            return entity =>
+            {
+                entity.ToTable("PlayersAntiCheating");
+                entity.HasKey(m => m.SteamId);
+                entity.Property(c => c.SteamId).IsRequired().HasColumnName("SteamId");
+                entity.Property(m => m.Name).IsRequired(true).HasMaxLength(100);
+                entity.Property(m => m.Expiration);
+                entity.Property(m => m.Map);
+                entity.Property(m => m.IsConnected);
+                entity.Property(m => m.IsAntiCheatOpen);
+                entity.HasMany(m => m.PlayerGameInformation);
+            };
+        }
 
+        internal static Action<EntityTypeBuilder<PlayerGameInformation>> ConfigurePlayerGameInformation()
+        {
+            return entity =>
+            {
+                entity.ToTable("PlayerGameInformations");
+                entity.HasKey(m => m.Id);
+                entity.Property(c => c.Id).IsRequired().HasColumnName("Id");
+                entity.Property(m => m.PlayersSteamId).IsRequired(true);
+                entity.Property(m => m.MatchId).IsRequired(true);
+                entity.Property(m => m.PathImage);
+                entity.Property(m => m.ProssesNamesBase64);
+                entity.HasOne(m => m.Players);
+            };
+        }
+
+        internal static Action<EntityTypeBuilder<TokenDropbox>> ConfigureDropBox()
+        {
+            return entity =>
+            {
+                entity.ToTable("DropboxTokens");
+                entity.HasKey(m => m.Id);
+                entity.Property(c => c.Id).IsRequired().HasColumnName("Id");
+                entity.Property(m => m.Token);
+                entity.Property(m => m.Expiration);
+            };
+        }
+        
         internal static Action<EntityTypeBuilder<DiscordUser>> ConfigureDiscordUser()
         {
             return entity =>

@@ -24,7 +24,7 @@ namespace CsGOStateEmitter
 
             _client.Log += Log;
 
-            string token = "MTA4Njk4MTY4NzQyNDA1NzQwNQ.GocTM8.cW0CPzBAkroyojJj3ZtsY2zEKQ2-98rxB-0l-A";
+            string token = "MTA4Njk4MTY4NzQyNDA1NzQwNQ.GPQVtN.mruSJMvo__YKCh8Wk19nAfsz2B5DYB--9oRqvc";
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
 
@@ -88,6 +88,34 @@ namespace CsGOStateEmitter
 
                 switch (command)
                 {
+                    case "$$get_images_anticheating":
+
+                        // TODO: Montar esquema para pegar o SteamId e consultar o usuário
+                        //var playerGame = await context.Set<Player>().Include(i => i.PlayerGameInformation).FirstOrDefaultAsync(x => x.SteamId == "76561198801678688");
+                        //if (playerGame == null)
+                        //{
+                        //    await message.Channel.SendMessageAsync($"Nenhum screemshot encontrado para esse player");
+                        //    return;
+                        //}
+
+                        //for (int i = 0; i < playerGame.PlayerGameInformation.Select(x => x.PathImage).Count(); i += 6)
+                        //{
+                        //    // Pega as próximas 6 imagens para enviar
+                        //    //List<string> batch = playerGame.PlayerGameInformation.Select(x => x.PathImage).Skip(i).Take(6).ToList();
+                        //    //await discordEmitter.SendImageFilesInBase64(message, batch, $"Player: {playerGame.Name}");
+                        //}
+
+                        var imageAnticheating = new EmbedBuilder();
+
+                        imageAnticheating.WithTitle($"Imagens do Anticheating");
+                        imageAnticheating.Fields.Add(new EmbedFieldBuilder
+                        {
+                            IsInline = false,
+                            Name = "Link",
+                            Value = "https://www.dropbox.com/scl/fo/xv5xxf4zi3mue82j4hc4d/h?dl=0"
+                        });
+                        await message.Channel.SendMessageAsync("", embed: imageAnticheating.Build());
+                        return;
                     case "help" :
                         var embedHelper = new EmbedBuilder();
                         embedHelper.WithTitle($"Todos os comandos possíveis:");
@@ -100,13 +128,13 @@ namespace CsGOStateEmitter
                         embedHelper.Fields.Add(new EmbedFieldBuilder
                         {
                             IsInline = false,
-                            Name = "link_user NOMEUSUARIOSTEAM",
+                            Name = "link_user {Nome usuário steam}",
                             Value = "Você pode associar o seu usuário steam para executar o comando só como 'stats'"
                         });
                         embedHelper.Fields.Add(new EmbedFieldBuilder
                         {
                             IsInline = false,
-                            Name = "unlink_user NOMEUSUARIOSTEAM",
+                            Name = "unlink_user {Nome usuário steam}",
                             Value = "Você pode desassociar o seu usuário steam"
                         });
                         embedHelper.Fields.Add(new EmbedFieldBuilder
@@ -209,19 +237,29 @@ namespace CsGOStateEmitter
              
                         if (result.Any())
                         {
+                            var kills = result.First().Sum(x => x.Kills);
+                            var deaths = result.First().Sum(x => x.Deaths);
+                            var headshotKills = result.First().Sum(x => x.HeadshotKills);
+
                             var embed = new EmbedBuilder();
                             embed.WithTitle($"Total geral player: {result.First().OrderByDescending(x => x.MatchId).FirstOrDefault().Name}");
                             embed.Fields.Add(new EmbedFieldBuilder
                             {
                                 IsInline = true,
                                 Name = "Kills",
-                                Value = result.First().Sum(x => x.Kills)
+                                Value = kills
                             });
                             embed.Fields.Add(new EmbedFieldBuilder
                             {
                                 IsInline = true,
                                 Name = "Deaths",
-                                Value = result.First().Sum(x => x.Deaths)
+                                Value = deaths
+                            });
+                            embed.Fields.Add(new EmbedFieldBuilder
+                            {
+                                IsInline = true,
+                                Name = "Assists",
+                                Value = result.First().Sum(x => x.Assists)
                             });
                             embed.Fields.Add(new EmbedFieldBuilder
                             {
@@ -232,8 +270,15 @@ namespace CsGOStateEmitter
                             embed.Fields.Add(new EmbedFieldBuilder
                             {
                                 IsInline = true,
-                                Name = "Assists",
-                                Value = result.First().Sum(x => x.Assists)
+                                Name = "MVPs",
+                                Value = result.First().Sum(x => x.Mvp)
+                            });
+                            var kd = deaths <= 0 ? 0.0m : (decimal)kills / (decimal)deaths;
+                            embed.Fields.Add(new EmbedFieldBuilder
+                            {
+                                IsInline = true,
+                                Name = "K/D",
+                                Value = kd.ToString("0.00")
                             });
                             embed.Fields.Add(new EmbedFieldBuilder
                             {
@@ -247,13 +292,31 @@ namespace CsGOStateEmitter
                                 Name = "FirstKills TR",
                                 Value = result.First().Sum(x => x.FirstDeathT)
                             });
+                            embed.Fields.Add(new EmbedFieldBuilder
+                            {
+                                IsInline = true,
+                                Name = "KillsWithKnife",
+                                Value = result.First().Sum(x => x.KnifeKills)
+                            });
+                            embed.Fields.Add(new EmbedFieldBuilder
+                            {
+                                IsInline = true,
+                                Name = "Total Matches",
+                                Value = result.First().Select(x => x.MatchId)?.Count() ?? 0
+                            });
+                            var hsPercent = kills <= 0 ? 0.00m : ((decimal)headshotKills / (decimal)kills) * 100;
+                            embed.Fields.Add(new EmbedFieldBuilder
+                            {
+                                IsInline = true,
+                                Name = "HeadShots - %",
+                                Value = $"{headshotKills} - {hsPercent.ToString("0.00")}%"
+                            });
 
                             await message.Channel.SendMessageAsync("", embed: embed.Build());
                         }
                         else
                         {
                             await message.Channel.SendMessageAsync("Nenhum player encontrado com esse nome/steamID, você deve jogar ao menos uma partida para ter stats, desgraça do caralho");
-
                         }
                         break;
                     case "last_match":
@@ -263,7 +326,6 @@ namespace CsGOStateEmitter
                             {
                                 await discordEmitter.SendMessage2(message, order);
                                 return;
-
                             }
                             await message.Channel.SendMessageAsync("Ratomanocu");
                             return;
@@ -352,7 +414,7 @@ namespace CsGOStateEmitter
 
                         break;
                     case "link_user":
-                        var steamName = commandMessage.Replace("link_user", "");
+                        var steamName = commandMessage.Replace("link_user ", "");
                         await discordEmitter.AssociateUser(message, steamName);
                         break;
                     case "rollback":

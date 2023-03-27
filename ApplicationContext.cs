@@ -21,6 +21,13 @@ namespace CsGOStateEmitter
             modelBuilder.Entity(EntitiesMapping.ConfigureDiscordUser());
             modelBuilder.Entity(EntitiesMapping.ConfigurePlayer());
             modelBuilder.Entity(EntitiesMapping.ConfigureAdminBot());
+
+            // Tabelas utilizadas pelo anticheating
+            modelBuilder.Entity(EntitiesMapping.ConfigurePlayers()); 
+            modelBuilder.Entity(EntitiesMapping.ConfigurePlayerGameInformation());
+
+            // Tabela DropBox
+            modelBuilder.Entity(EntitiesMapping.ConfigureDropBox());
         }
     }
 }

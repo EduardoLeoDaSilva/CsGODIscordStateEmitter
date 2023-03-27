@@ -3,6 +3,7 @@ using System;
 using CsGOStateEmitter;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CsGOStateEmitter.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230326135026_AddTableTokenDropBox")]
+    partial class AddTableTokenDropBox
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,6 +54,34 @@ namespace CsGOStateEmitter.Migrations
                     b.ToTable("DiscordUser");
                 });
 
+            modelBuilder.Entity("CsGOStateEmitter.Entities.GameScreemShots", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("ImageBase64")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("MatchId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PlayersSteamId")
+                        .IsRequired()
+                        .HasColumnType("varchar(95)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlayersSteamId");
+
+                    b.ToTable("GameScreemShots", (string)null);
+                });
+
             modelBuilder.Entity("CsGOStateEmitter.Entities.Player", b =>
                 {
                     b.Property<string>("SteamId")
@@ -81,38 +112,6 @@ namespace CsGOStateEmitter.Migrations
                     b.HasKey("SteamId");
 
                     b.ToTable("PlayersAntiCheating", (string)null);
-                });
-
-            modelBuilder.Entity("CsGOStateEmitter.Entities.PlayerGameInformation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("Id");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("MatchId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PathImage")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("PlayersSteamId")
-                        .IsRequired()
-                        .HasColumnType("varchar(95)");
-
-                    b.Property<string>("ProssesNamesBase64")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlayersSteamId");
-
-                    b.ToTable("PlayerGameInformations", (string)null);
                 });
 
             modelBuilder.Entity("CsGOStateEmitter.Entities.PlayerStats", b =>
@@ -313,8 +312,7 @@ namespace CsGOStateEmitter.Migrations
             modelBuilder.Entity("CsGOStateEmitter.Entities.TokenDropbox", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(95)")
-                        .HasColumnName("Id");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<DateTime>("Expiration")
                         .HasColumnType("datetime(6)");
@@ -328,10 +326,10 @@ namespace CsGOStateEmitter.Migrations
                     b.ToTable("DropboxTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CsGOStateEmitter.Entities.PlayerGameInformation", b =>
+            modelBuilder.Entity("CsGOStateEmitter.Entities.GameScreemShots", b =>
                 {
                     b.HasOne("CsGOStateEmitter.Entities.Player", "Players")
-                        .WithMany("PlayerGameInformation")
+                        .WithMany("GameScreemShots")
                         .HasForeignKey("PlayersSteamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -341,7 +339,7 @@ namespace CsGOStateEmitter.Migrations
 
             modelBuilder.Entity("CsGOStateEmitter.Entities.Player", b =>
                 {
-                    b.Navigation("PlayerGameInformation");
+                    b.Navigation("GameScreemShots");
                 });
 #pragma warning restore 612, 618
         }
