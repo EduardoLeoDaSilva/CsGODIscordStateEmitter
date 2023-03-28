@@ -37,9 +37,23 @@ namespace CsGOStateEmitter
 
         private async Task OnDisconnected(Exception arg)
         {
-            string token = "MTA4Njk4MTY4NzQyNDA1NzQwNQ.GocTM8.cW0CPzBAkroyojJj3ZtsY2zEKQ2-98rxB-0l-A";
+            _client = new DiscordSocketClient(new DiscordSocketConfig
+            {
+                GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.MessageContent,
+
+            });
+
+            _client.Log += Log;
+
+            string token = "MTA4Njk4MTY4NzQyNDA1NzQwNQ.GPQVtN.mruSJMvo__YKCh8Wk19nAfsz2B5DYB--9oRqvc";
             await _client.LoginAsync(TokenType.Bot, token);
-            await this._client.StartAsync();
+            await _client.StartAsync();
+
+
+            _client.MessageReceived += MessageReceived;
+            _client.Disconnected += OnDisconnected;
+
+            await Task.Delay(-1);
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
@@ -311,6 +325,28 @@ namespace CsGOStateEmitter
                                 Name = "HeadShots - %",
                                 Value = $"{headshotKills} - {hsPercent.ToString("0.00")}%"
                             });
+
+                            var matchs = await context.Set<Result>().Where(x => (!string.IsNullOrEmpty(x.Winner)) && x.Winner != "none").ToListAsync();
+
+                            var quantDerrotas = 0;
+
+                            foreach (var playerGroup in result)
+                            {
+                                foreach (var playerStats in playerGroup)
+                                {
+                                    var matchOfPlayer = matchs.FirstOrDefault(x => x.MatchId == playerStats.MatchId);
+                                    if(matchOfPlayer != null)
+                                    {
+                                        if(matchOfPlayer.Winner != playerStats.Team)
+                                        {
+                                            quantDerrotas++;
+                                        }
+                                    }
+
+                                }
+                            }
+
+                            embed.ThumbnailUrl = RankService.GetRank(result.First().Sum(x => x.ContributionScore) - (quantDerrotas * 50));
 
                             await message.Channel.SendMessageAsync("", embed: embed.Build());
                         }
