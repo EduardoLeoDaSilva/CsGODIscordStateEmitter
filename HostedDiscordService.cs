@@ -329,6 +329,7 @@ namespace CsGOStateEmitter
                             var matchs = await context.Set<Result>().Where(x => (!string.IsNullOrEmpty(x.Winner)) && x.Winner != "none").ToListAsync();
 
                             var quantDerrotas = 0;
+                            var quantVitorias = 0;
 
                             foreach (var playerGroup in result)
                             {
@@ -338,15 +339,16 @@ namespace CsGOStateEmitter
                                     if(matchOfPlayer != null)
                                     {
                                         if(matchOfPlayer.Winner != playerStats.Team)
-                                        {
                                             quantDerrotas++;
-                                        }
+
+                                        if(matchOfPlayer.Winner == playerStats.Team)
+                                            quantVitorias++;
                                     }
 
                                 }
                             }
 
-                            embed.ThumbnailUrl = RankService.GetRank(result.First().Sum(x => x.ContributionScore) - (quantDerrotas * 50));
+                            embed.ThumbnailUrl = RankService.GetRank(result.First().Sum(x => x.ContributionScore) + ((quantVitorias * 50) - (quantDerrotas * 50)));
 
                             await message.Channel.SendMessageAsync("", embed: embed.Build());
                         }
