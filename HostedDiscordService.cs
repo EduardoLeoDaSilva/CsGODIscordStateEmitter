@@ -348,7 +348,7 @@ namespace CsGOStateEmitter
                                 }
                             }
 
-                            embed.ThumbnailUrl = RankService.GetRank(result.First().Sum(x => x.ContributionScore) + ((quantVitorias * 50) - (quantDerrotas * 50)));
+                            embed.ThumbnailUrl = RankService.GetRank(result.First().Sum(x => x.ContributionScore) + ((quantVitorias * 100) - (quantDerrotas * 50)));
 
                             await message.Channel.SendMessageAsync("", embed: embed.Build());
                         }
