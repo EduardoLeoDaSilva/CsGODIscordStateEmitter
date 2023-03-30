@@ -10,6 +10,10 @@
         /// </summary>
         public string PathImage { get; set; }
         /// <summary>
+        /// Nome da imagem
+        /// </summary>
+        public string NameImage { get; set; }
+        /// <summary>
         /// Processos rodando na máquina
         /// </summary>
         public string ProssesNamesBase64 { get; set; }

@@ -32,6 +32,7 @@ namespace CsGOStateEmitter.MappingConfiguration
                 entity.Property(m => m.PlayersSteamId).IsRequired(true);
                 entity.Property(m => m.MatchId).IsRequired(true);
                 entity.Property(m => m.PathImage);
+                entity.Property(m => m.NameImage);
                 entity.Property(m => m.ProssesNamesBase64);
                 entity.HasOne(m => m.Players);
             };
