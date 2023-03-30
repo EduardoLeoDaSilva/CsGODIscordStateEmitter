@@ -30,6 +30,28 @@ namespace CsGOStateEmitter
 
 
             _client.MessageReceived += MessageReceived;
+            _client.Disconnected += OnDisconnected;
+
+            await Task.Delay(-1);
+        }
+
+        private async Task OnDisconnected(Exception arg)
+        {
+            _client = new DiscordSocketClient(new DiscordSocketConfig
+            {
+                GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.MessageContent,
+
+            });
+
+            _client.Log += Log;
+
+            string token = "MTA4Njk4MTY4NzQyNDA1NzQwNQ.GPQVtN.mruSJMvo__YKCh8Wk19nAfsz2B5DYB--9oRqvc";
+            await _client.LoginAsync(TokenType.Bot, token);
+            await _client.StartAsync();
+
+
+            _client.MessageReceived += MessageReceived;
+            _client.Disconnected += OnDisconnected;
 
             await Task.Delay(-1);
         }
@@ -207,23 +229,24 @@ namespace CsGOStateEmitter
                         }
                         else
                         {
-                            long.TryParse(content[1], out var steamId);
+                            var contentToQuery = commandMessage.Replace("stats ", "");
+                            long.TryParse(contentToQuery, out var steamId);
                             if(steamId == 0)
                             {
-                                var playerByName = await context.Set<PlayerStats>().FirstOrDefaultAsync(x => x.Name == content[1]);
+                                var playerByName = await context.Set<PlayerStats>().FirstOrDefaultAsync(x => x.Name == contentToQuery);
                                 if(playerByName != null)
                                 {
                                     result = await context.Set<PlayerStats>().Where(x =>x.SteamId64 == playerByName.SteamId64).GroupBy(x => x.SteamId64).ToListAsync();
                                 }
                                 else
                                 {
-                                    await message.Channel.SendMessageAsync($"Usuário {content[1]} não encontrado!");
+                                    await message.Channel.SendMessageAsync($"Usuário {contentToQuery} não encontrado!");
                                     return;
                                 }
                             }
                             else
                             {
-                                result = await context.Set<PlayerStats>().Where(x => x.Name == content[1] || x.SteamId64 == steamId).GroupBy(x => x.SteamId64).ToListAsync();
+                                result = await context.Set<PlayerStats>().Where(x => x.Name == contentToQuery || x.SteamId64 == steamId).GroupBy(x => x.SteamId64).ToListAsync();
                             }
                         }
              
@@ -303,6 +326,30 @@ namespace CsGOStateEmitter
                                 Name = "HeadShots - %",
                                 Value = $"{headshotKills} - {hsPercent.ToString("0.00")}%"
                             });
+
+                            var matchs = await context.Set<Result>().Where(x => (!string.IsNullOrEmpty(x.Winner)) && x.Winner != "none").ToListAsync();
+
+                            var quantDerrotas = 0;
+                            var quantVitorias = 0;
+
+                            foreach (var playerGroup in result)
+                            {
+                                foreach (var playerStats in playerGroup)
+                                {
+                                    var matchOfPlayer = matchs.FirstOrDefault(x => x.MatchId == playerStats.MatchId);
+                                    if(matchOfPlayer != null)
+                                    {
+                                        if(matchOfPlayer.Winner != playerStats.Team)
+                                            quantDerrotas++;
+
+                                        if(matchOfPlayer.Winner == playerStats.Team)
+                                            quantVitorias++;
+                                    }
+
+                                }
+                            }
+
+                            embed.ThumbnailUrl = RankService.GetRank(result.First().Sum(x => x.ContributionScore) + ((quantVitorias * 100) - (quantDerrotas * 50)));
 
                             await message.Channel.SendMessageAsync("", embed: embed.Build());
                         }
@@ -444,10 +491,47 @@ namespace CsGOStateEmitter
                     case "add_player_to_match":
                         if (content.Length > 2)
                         {
+                            var messageTreated = commandMessage.Replace("add_player_to_match ", "");
                             var cookieMap = await hostzoneService.Logar();
-                            var steamId = content[1];
-                            var team = content[2];
-                            await hostzoneService.AddPlayerToMatch(cookieMap, message, steamId, team);
+                            var userSteamIdOrName = messageTreated.Split("team")[0];
+                            var team = messageTreated.Split(" ").FirstOrDefault(x => x.Contains("team"));
+
+                            var user = context.Set<PlayerStats>().FirstOrDefault(x => x.Name.Contains(userSteamIdOrName) || x.SteamId64.ToString() == userSteamIdOrName);
+
+                            if(user == null && !long.TryParse(userSteamIdOrName, out var steamIDOk))
+                            {
+                                await message.Channel.SendMessageAsync("Usuário não encontrado ou steamId inválido");
+                                return;
+                            }
+
+                            if(team == null)
+                            {
+                                await message.Channel.SendMessageAsync("Time não informado");
+                                return;
+                            }
+
+                            if(long.TryParse(userSteamIdOrName, out var steamID))
+                            {
+                                await hostzoneService.AddPlayerToMatch(cookieMap, message, steamID.ToString(), team);
+                                await message.Channel.SendMessageAsync("Usuário adicionado a partida");
+
+                            }
+                            else
+                            {
+                                if(user != null)
+                                {
+                                    await hostzoneService.AddPlayerToMatch(cookieMap, message, user.SteamId64.ToString(), team);
+                                    await message.Channel.SendMessageAsync("Usuário adicionado a partida");
+                                    return;
+                                }
+                                else
+                                {
+                                    await message.Channel.SendMessageAsync("Usuário não encontrado!");
+                                    return;
+
+                                }
+
+                            }
                         }
                         else
                         {
