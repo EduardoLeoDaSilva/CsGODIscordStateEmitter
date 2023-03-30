@@ -1,4 +1,5 @@
 ﻿using CsGOStateEmitter.Entities;
+using CsGOStateEmitter.Services;
 using Discord;
 using Discord.WebSocket;
 using Microsoft.EntityFrameworkCore;
@@ -102,33 +103,57 @@ namespace CsGOStateEmitter
 
                 switch (command)
                 {
-                    case "$$get_images_anticheating":
+                    case "#$get_images_user":
 
-                        // TODO: Montar esquema para pegar o SteamId e consultar o usuário
-                        //var playerGame = await context.Set<Player>().Include(i => i.PlayerGameInformation).FirstOrDefaultAsync(x => x.SteamId == "76561198801678688");
-                        //if (playerGame == null)
-                        //{
-                        //    await message.Channel.SendMessageAsync($"Nenhum screemshot encontrado para esse player");
-                        //    return;
-                        //}
-
-                        //for (int i = 0; i < playerGame.PlayerGameInformation.Select(x => x.PathImage).Count(); i += 6)
-                        //{
-                        //    // Pega as próximas 6 imagens para enviar
-                        //    //List<string> batch = playerGame.PlayerGameInformation.Select(x => x.PathImage).Skip(i).Take(6).ToList();
-                        //    //await discordEmitter.SendImageFilesInBase64(message, batch, $"Player: {playerGame.Name}");
-                        //}
-
-                        var imageAnticheating = new EmbedBuilder();
-
-                        imageAnticheating.WithTitle($"Imagens do Anticheating");
-                        imageAnticheating.Fields.Add(new EmbedFieldBuilder
+                        var contentToQueryPlayer = commandMessage.Replace("#$get_images_user ", "");
+                        long.TryParse(contentToQueryPlayer, out var steamIdPlayerAnticheating);
+                        if (steamIdPlayerAnticheating == 0)
                         {
-                            IsInline = false,
-                            Name = "Link",
-                            Value = "https://www.dropbox.com/scl/fo/xv5xxf4zi3mue82j4hc4d/h?dl=0"
-                        });
-                        await message.Channel.SendMessageAsync("", embed: imageAnticheating.Build());
+                            var playerByName = await context.Set<PlayerStats>().FirstOrDefaultAsync(x => x.Name == contentToQueryPlayer);
+                            if (playerByName != null)
+                            {
+                                result = await context.Set<PlayerStats>().Where(x => x.SteamId64 == playerByName.SteamId64).GroupBy(x => x.SteamId64).ToListAsync();
+                            }
+                            else
+                            {
+                                await message.Channel.SendMessageAsync($"Usuário {contentToQueryPlayer} não encontrado!");
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            result = await context.Set<PlayerStats>().Where(x => x.Name == contentToQueryPlayer || x.SteamId64 == steamIdPlayerAnticheating).GroupBy(x => x.SteamId64).ToListAsync();
+                        }
+
+                        string? steamIdPlayerGameInformation = result.FirstOrDefault()?.Select(x => x.SteamId64)?.FirstOrDefault().ToString();
+
+                        if (string.IsNullOrEmpty(steamIdPlayerGameInformation))
+                        {
+                            await message.Channel.SendMessageAsync($"Usuário {contentToQueryPlayer} não encontrado!");
+                            return;
+                        }
+
+                        var playerGame = await context.Set<Player>().Include(i => i.PlayerGameInformation).FirstOrDefaultAsync(x => x.SteamId == steamIdPlayerGameInformation);
+                        if (playerGame == null || playerGame.PlayerGameInformation == null || !playerGame.PlayerGameInformation.Any())
+                        {
+                            await message.Channel.SendMessageAsync($"Nenhum screemshot encontrado para esse player");
+                            return;
+                        }
+
+                        var playerGameInformation = playerGame.PlayerGameInformation.OrderByDescending(x => x.CreatedDate).FirstOrDefault();
+
+                        var skinkiService = new SkinkiDriverService();
+
+                        var urlsImages = await skinkiService.GetFilesAsync(playerGameInformation.PathImage);
+
+                        for (int i = 0; i < urlsImages.Count(); i += 6)
+                        {
+                            // Pega as próximas 6 imagens para enviar
+                            var batch = urlsImages.Skip(i).Take(6).ToList();
+                            foreach (var item in batch)
+                                await message.Channel.SendMessageAsync(item);
+                        }
+
                         return;
                     case "help" :
                         var embedHelper = new EmbedBuilder();
